@@ -87,6 +87,7 @@ int main(int argc, char* argv[])
 		drawModel(ctx, m);
 		SDL_Delay(16);
 	}
+	freeModel(m);
 	freeContext(ctx);
 	SDL_Quit();
 	return 0;
