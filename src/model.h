@@ -4,6 +4,12 @@
 #include <stdio.h>
 #include <SDL2/SDL.h>
 #include <math.h>
+
+//thanks, C!
+#ifndef M_PI 
+#define M_PI 3.14159265358979323846
+#endif
+
 typedef struct
 {
 	float x, y, z;
@@ -14,7 +20,7 @@ typedef struct
 	float x, y;
 } Point;
 
-typedef struct 
+typedef struct
 {
 	Vertex* verts;
 	int numVerts;

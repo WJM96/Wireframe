@@ -97,13 +97,28 @@ static Point getProjectedPoint(Context* ctx, Vertex v)
 {
 	//add rotation
 	//doesn't work, just flattens. will fix later
-/*
-	float len = sqrt(v.x * v.x + v.z*v.z);
-	float f = 1;
+	float currAngle;
+	if(v.x == 0.0f)
+	{
+		if(v.z > 0.0f)
+		{
+			currAngle = M_PI/2;
+		}
+		else
+		{
+			v.z = 3 * M_PI/2;
+		}
+	}
+	else
+	{
+		currAngle = atan(v.z/v.x);
+	}
 	
-	v.x = cos(ctx->theta) * (len);
-	v.z = sin(ctx->theta) * (len);
-*/	
+
+	float len = sqrt(v.z * v.z + v.x * v.x);
+	v.x = len * cos(currAngle + ctx->theta);
+	v.z = len * sin(currAngle + ctx->theta);
+	
 	//add camera
 	v.x += ctx->camera.x;
 	v.z += ctx->camera.z;
