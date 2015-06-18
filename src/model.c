@@ -104,14 +104,18 @@ static Point getProjectedPoint(Context* ctx, Vertex v)
 		{
 			currAngle = M_PI/2;
 		}
-		else
+		else 
 		{
-			v.z = 3 * M_PI/2;
+			currAngle = 3 * M_PI/2;
 		}
 	}
 	else
 	{
 		currAngle = atan(v.z/v.x);
+		if(v.x < 0)
+		{
+			currAngle +=  M_PI;
+		}
 	}
 	
 
