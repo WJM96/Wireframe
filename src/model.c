@@ -92,8 +92,7 @@ void freeModel(Mesh* model)
 	free (model);
 }
 
-
-static Point getProjectedPoint(Context* ctx, Vertex v)
+static float getCurrentTheta(Vertex v)
 {
 	//add rotation
 	//doesn't work, just flattens. will fix later
@@ -119,10 +118,35 @@ static Point getProjectedPoint(Context* ctx, Vertex v)
 	}
 	
 
+	return currAngle;
+}
+
+static Point getProjectedPoint(Context* ctx, Vertex v)
+{
+	//add rotation
+	//doesn't work, just flattens. will fix later
+	float currAngle = getCurrentTheta(v);
 	float len = sqrt(v.z * v.z + v.x * v.x);
+	
 	v.x = len * cos(currAngle + ctx->theta);
 	v.z = len * sin(currAngle + ctx->theta);
 	
+	
+	//now the other axis
+	float temp = v.x;
+	v.x = v.y;
+	v.y = temp;
+	currAngle = getCurrentTheta(v);
+	v.y = v.x;
+	v.x = temp;
+	
+	
+	len = sqrt(v.y * v.y + v.z * v.z);
+	
+	v.y = len * cos(currAngle + ctx->az);
+	v.z = len * sin(currAngle + ctx->az);
+			
+
 	//add camera
 	v.x += ctx->camera.x;
 	v.z += ctx->camera.z;

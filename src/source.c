@@ -48,6 +48,10 @@ int main(int argc, char* argv[])
 	Context* ctx = createContext(640, 640, 65.0f);
 	if(ctx == NULL)
 		return 1;
+	if(argc < 2)
+	{
+		printf("Please specify a model to load!");
+	}
 	Mesh* m = loadModel(argv[1]);
 	if(m == NULL)
 	{
@@ -75,9 +79,9 @@ int main(int argc, char* argv[])
 				case SDLK_RIGHT:
 					ctx->theta +=.05; break;
 				case SDLK_z: 
-					ctx->camera.y -=.05; break;
+					ctx->az -=.05; break;
 				case SDLK_x:
-					ctx->camera.y +=.05; break;
+					ctx->az +=.05; break;
 				default: break;
 				}
 			}
