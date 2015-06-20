@@ -1,6 +1,6 @@
 #include "model.h"
 
-///this needs a rewrite -- BAD
+///this needs to be rewritten, is still too picky about file format. 
 Mesh* loadModel(const char* file)
 {
 
@@ -92,14 +92,15 @@ void freeModel(Mesh* model)
 	free (model);
 }
 
-static float getCurrentTheta(Vertex v)
+//This function finds the angle from the origin of a point (in two dimensions). 
+static float getCurrentRotation(float a, float b)
 {
 	//add rotation
 	//doesn't work, just flattens. will fix later
 	float currAngle;
-	if(v.x == 0.0f)
+	if(a == 0.0f)
 	{
-		if(v.z > 0.0f)
+		if(b > 0.0f)
 		{
 			currAngle = M_PI/2;
 		}
@@ -110,8 +111,8 @@ static float getCurrentTheta(Vertex v)
 	}
 	else
 	{
-		currAngle = atan(v.z/v.x);
-		if(v.x < 0)
+		currAngle = atan(b/a);
+		if(a < 0)
 		{
 			currAngle +=  M_PI;
 		}
@@ -121,11 +122,13 @@ static float getCurrentTheta(Vertex v)
 	return currAngle;
 }
 
+
+//This point projects a single vertex into a 2d point and returns it.
 static Point getProjectedPoint(Context* ctx, Vertex v)
 {
 	//add rotation
 	//doesn't work, just flattens. will fix later
-	float currAngle = getCurrentTheta(v);
+	float currAngle = getCurrentRotation(v.x, v.z);
 	float len = sqrt(v.z * v.z + v.x * v.x);
 	
 	v.x = len * cos(currAngle + ctx->theta);
@@ -133,14 +136,7 @@ static Point getProjectedPoint(Context* ctx, Vertex v)
 	
 	
 	//now the other axis
-	float temp = v.x;
-	v.x = v.y;
-	v.y = temp;
-	currAngle = getCurrentTheta(v);
-	v.y = v.x;
-	v.x = temp;
-	
-	
+	currAngle = getCurrentRotation(v.y, v.z);
 	len = sqrt(v.y * v.y + v.z * v.z);
 	
 	v.y = len * cos(currAngle + ctx->az);
