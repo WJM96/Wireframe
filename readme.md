@@ -17,3 +17,5 @@ experience will be extremely upsetting. Zoom out.
 
 
 Compile using the included bash file ("compile.sh");
+
+It requires SDL2 to compile and run properly
